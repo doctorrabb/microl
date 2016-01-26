@@ -2,7 +2,6 @@ import socket
 import json  
 import os
 from sys import path
-import pyperclip
 from threading import Thread
 
 path.insert(0, os.path.realpath (os.path.dirname (__file__)) + '/modules/')
@@ -15,7 +14,10 @@ DEFAULT_CONFIG = '''
    "host" : "localhost",
    "port" : 80,
    "max_clients" : 1,
-   "defaultWebServerPath" : "/home/''' + os.getlogin () + '''/microl"
+   "defaultWebServerPath" : "/home/''' + os.getlogin () + '''/microl",
+   "pythonScriptsExec" : false,
+   "rubyScriptsExec" : false,
+   "outputRequests" : false
 }
 ''' 
 
@@ -64,7 +66,7 @@ def serv (json_config):
     s.listen (json_config ['max_clients'])
     
     
-    print INFO + 'Server started\nHost: ' + HOST + '\nPort: ' + str (PORT)
+    print INFO + 'Server started (Press Ctrl + C to shut it down)\nHost: ' + HOST + '\nPort: ' + str (PORT)
     
     code = ''
     
@@ -78,6 +80,8 @@ def serv (json_config):
     for i in f.readlines(): code += i
 
     while True:
+        
+        try:
         
             con, addr = s.accept()
         
@@ -93,5 +97,14 @@ def serv (json_config):
                     con.close ()
         
             if not banned:
+                
+               if json_config ['outputRequests']: 
+                   data = con.recv (1024)
+                   if data: print data
+                
                con.sendall (code)
                con.close ()
+               
+        except KeyboardInterrupt:
+            print INFO + 'Shutting down...'
+            break
