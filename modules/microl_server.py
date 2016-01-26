@@ -2,10 +2,13 @@ import socket
 import json  
 import os
 from sys import path
+import pyperclip
+from threading import Thread
 
 path.insert(0, os.path.realpath (os.path.dirname (__file__)) + '/modules/')
 
 from output import *
+import command_block
 
 DEFAULT_CONFIG = '''
 {
@@ -60,6 +63,7 @@ def serv (json_config):
     s.bind ((HOST, PORT))
     s.listen (json_config ['max_clients'])
     
+    
     print INFO + 'Server started\nHost: ' + HOST + '\nPort: ' + str (PORT)
     
     code = ''
@@ -74,23 +78,20 @@ def serv (json_config):
     for i in f.readlines(): code += i
 
     while True:
-        con, addr = s.accept()
         
-        print INFO + 'Get out IP: ' + addr [0]
+            con, addr = s.accept()
         
-        banned = False
+            banned = False
         
-        for i in open ('/usr/bin/microl/blacklist.lst', 'r').readlines ():
+            for i in open ('/usr/bin/microl/blacklist.lst', 'r').readlines ():
             
-            if addr [0] == i.strip ('\n'):
+                if addr [0] == i.strip ('\n'):
                 
-                banned = True
+                    banned = True
                 
-                con.sendall (BAN_IP_HTML_PAGE)
-                con.close ()
+                    con.sendall (BAN_IP_HTML_PAGE)
+                    con.close ()
         
-        if not banned:
-            data = con.recv (1024)
-            if data: print data
-            con.sendall (code)
-            con.close ()
+            if not banned:
+               con.sendall (code)
+               con.close ()
