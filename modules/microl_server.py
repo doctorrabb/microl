@@ -38,7 +38,7 @@ BAN_IP_HTML_PAGE = '''
 '''
     
 def init ():
-    if not os.path.isdir('/usr/bin/microl'):
+    if not os.path.isdir('/etc/microl'):
         os.mkdir ('/etc/microl')
         os.mkdir ('/home/' + os.getlogin () + '/microl')
         f1 = open ('/home/' + os.getlogin () + '/microl/index.html', 'w')
