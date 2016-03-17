@@ -40,8 +40,8 @@ BAN_IP_HTML_PAGE = '''
 def init ():
     if not os.path.isdir('/etc/microl'):
         os.mkdir ('/etc/microl')
-        os.mkdir ('/home/' + os.getlogin () + '/microl')
-        f1 = open ('/home/' + os.getlogin () + '/microl/index.html', 'w')
+        if not os.path.isidr ('/etc/microl/project_files'): os.mkdir ('/etc/microl/project_files')
+        f1 = open ('/etc/microl/project_files/index.html', 'w')
         f1.write (DEFAULT_HTML_PAGE)
         f1.close ()
         
