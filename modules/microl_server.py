@@ -14,7 +14,7 @@ DEFAULT_CONFIG = '''
    "host" : "localhost",
    "port" : 80,
    "max_clients" : 1,
-   "defaultWebServerPath" : "/home/''' + os.getlogin () + '''/microl",
+   "defaultWebServerPath" : "/etc/microl/project_files",
    "pythonScriptsExec" : false,
    "rubyScriptsExec" : false,
    "outputRequests" : false
@@ -87,7 +87,7 @@ def serv (json_config):
         
             banned = False
         
-            for i in open ('/usr/bin/microl/blacklist.lst', 'r').readlines ():
+            for i in open ('/etc/microl/blacklist.lst', 'r').readlines ():
             
                 if addr [0] == i.strip ('\n'):
                 
