@@ -39,17 +39,17 @@ BAN_IP_HTML_PAGE = '''
     
 def init ():
     if not os.path.isdir('/usr/bin/microl'):
-        os.mkdir ('/usr/bin/microl')
+        os.mkdir ('/etc/microl')
         os.mkdir ('/home/' + os.getlogin () + '/microl')
         f1 = open ('/home/' + os.getlogin () + '/microl/index.html', 'w')
         f1.write (DEFAULT_HTML_PAGE)
         f1.close ()
         
-        f2 = open ('/usr/bin/microl/config.json', 'w')
+        f2 = open ('/etc/microl/config.json', 'w')
         f2.write (DEFAULT_CONFIG)
         f2.close ()  
         
-        f3 = open ('/usr/bin/microl/blacklist.lst', 'w')
+        f3 = open ('/etc/microl/blacklist.lst', 'w')
         f3.write ('')
         f3.close ()
     
